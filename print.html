@@ -434,6 +434,12 @@ usually the best available version.</p>
 <li>Fixed: <code>wezterm cli split-pane</code> didn't use the current working dir of the source pane. <a href="https://github.com/wez/wezterm/issues/766">#766</a></li>
 <li>Fixed: double-click-drag selection could panic when crossing line boundaries <a href="https://github.com/wez/wezterm/issues/762">#762</a></li>
 <li>Fixed: wrong scaling for ligatures in Recursive Mono font <a href="https://github.com/wez/wezterm/issues/699">#699</a></li>
+<li>Fixed: incorrect Sixel HLS hue handling <a href="https://github.com/wez/wezterm/issues/775">#775</a></li>
+<li>Fixed: we now recognize the <code>CSI 48:2:0:214:255m</code> form of specifying true color text attributes <a href="https://github.com/wez/wezterm/issues/785">#785</a></li>
+<li>Fixed: split separators didn't respect <code>tab_bar_at_bottom=true</code> and were rendered in the wrong place <a href="https://github.com/wez/wezterm/issues/797">#797</a></li>
+<li>Improved: messaging around <a href="https://wezfurlong.org/wezterm/config/lua/config/exit_behavior.html">exit_behavior</a></li>
+<li>Fixed: errors loading custom color schemes are now logged to the error log <a href="https://github.com/wez/wezterm/issues/794">#794</a></li>
+<li>Fixed: OSC 7 (current working directory) now works with paths that contain spaces and other special characters. Thanks to <a href="https://github.com/Arvedui">@Arvedui</a>! <a href="https://github.com/wez/wezterm/pull/799">#799</a></li>
 </ul>
 <h3 id="20210502-154244-3f7122cb"><a class="header" href="#20210502-154244-3f7122cb">20210502-154244-3f7122cb</a></h3>
 <ul>
@@ -2797,13 +2803,28 @@ is not specified in the accompanying ITU T.416 specification and is ignored by
 <code>WezTerm</code> and most (all?) other terminal emulators:</p>
 <pre><code>CSI 38 : 2 : : R : G : B m
 </code></pre>
+<p>(*Since nightly builds only) For the sake of compatibility with some other
+terminal emulators this additional form is also supported where the colorspace
+ID argument is not specified:</p>
+<pre><code>CSI 38 : 2 : R : G : B m
+</code></pre>
 <p>This sequence will set the <em>background color</em> to an arbitrary color in RGB colorspace.
 The <code>R</code>, <code>G</code> and <code>B</code> symbols below are decimal numbers in the range <code>0-255</code>:</p>
 <pre><code>CSI 48 : 2 : : R : G : B m
 </code></pre>
+<p>(*Since nightly builds only) For the sake of compatibility with some other
+terminal emulators this additional form is also supported where the colorspace
+ID argument is not specified:</p>
+<pre><code>CSI 48 : 2 : R : G : B m
+</code></pre>
 <p>This sequence will set the <em>underline color</em> to an arbitrary color in RGB colorspace.
 The <code>R</code>, <code>G</code> and <code>B</code> symbols below are decimal numbers in the range <code>0-255</code>:</p>
 <pre><code>CSI 58 : 2 : : R : G : B m
+</code></pre>
+<p>(*Since nightly builds only) For the sake of compatibility with some other
+terminal emulators this additional form is also supported where the colorspace
+ID argument is not specified:</p>
+<pre><code>CSI 58 : 2 : R : G : B m
 </code></pre>
 <h4 id="cursor-movement"><a class="header" href="#cursor-movement">Cursor Movement</a></h4>
 <h4 id="editing-functions"><a class="header" href="#editing-functions">Editing Functions</a></h4>
@@ -6175,6 +6196,10 @@ There are three possible values:</p>
   exit_behavior = &quot;Hold&quot;,
 }
 </code></pre>
+<p>Note that most unix shells will exit with the status of the last command that
+it ran.  If you interrupt a command and then use CTRL-D to send EOF to the
+shell, the shell will return an unsuccessful exit status.  With the default
+<code>exit_behavior=&quot;CloseOnCleanExit&quot;</code>, that will cause the pane to remain open.</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="font"><a class="header" href="#font"><code>font</code></a></h1>
 <p>Configures the font to use by default.  The <code>font</code> setting can specify
 a set of fallbacks and other options, and is described in more detail

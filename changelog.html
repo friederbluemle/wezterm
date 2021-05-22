@@ -186,6 +186,12 @@ usually the best available version.</p>
 <li>Fixed: <code>wezterm cli split-pane</code> didn't use the current working dir of the source pane. <a href="https://github.com/wez/wezterm/issues/766">#766</a></li>
 <li>Fixed: double-click-drag selection could panic when crossing line boundaries <a href="https://github.com/wez/wezterm/issues/762">#762</a></li>
 <li>Fixed: wrong scaling for ligatures in Recursive Mono font <a href="https://github.com/wez/wezterm/issues/699">#699</a></li>
+<li>Fixed: incorrect Sixel HLS hue handling <a href="https://github.com/wez/wezterm/issues/775">#775</a></li>
+<li>Fixed: we now recognize the <code>CSI 48:2:0:214:255m</code> form of specifying true color text attributes <a href="https://github.com/wez/wezterm/issues/785">#785</a></li>
+<li>Fixed: split separators didn't respect <code>tab_bar_at_bottom=true</code> and were rendered in the wrong place <a href="https://github.com/wez/wezterm/issues/797">#797</a></li>
+<li>Improved: messaging around <a href="https://wezfurlong.org/wezterm/config/lua/config/exit_behavior.html">exit_behavior</a></li>
+<li>Fixed: errors loading custom color schemes are now logged to the error log <a href="https://github.com/wez/wezterm/issues/794">#794</a></li>
+<li>Fixed: OSC 7 (current working directory) now works with paths that contain spaces and other special characters. Thanks to <a href="https://github.com/Arvedui">@Arvedui</a>! <a href="https://github.com/wez/wezterm/pull/799">#799</a></li>
 </ul>
 <h3 id="20210502-154244-3f7122cb"><a class="header" href="#20210502-154244-3f7122cb">20210502-154244-3f7122cb</a></h3>
 <ul>
