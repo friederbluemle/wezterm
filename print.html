@@ -429,7 +429,7 @@ usually the best available version.</p>
 <li>Fixed: new tabs could have the wrong number of rows and columns if a tiling WM resizes the window before OpenGL has been setup. <a href="https://github.com/wez/wezterm/issues/1074">#1074</a></li>
 <li>Improved: multi-click-streaks are now interrupted by the cursor moving to a different cell. Thanks to <a href="https://github.com/unrelentingtech">@unrelentingtech</a>! <a href="https://github.com/wez/wezterm/issues/1126">#1126</a></li>
 <li>Fixed: Wayland: dragging the window using the tab bar now works. Thanks to <a href="https://github.com/unrelentingtech">@unrelentingtech</a>! <a href="https://github.com/wez/wezterm/issues/1127">#1127</a></li>
-<li>New: X11, Wayland, macOS: Window resizing now prefers to step in increments of the cell size</li>
+<li>New: X11, macOS: Window resizing now prefers to step in increments of the cell size</li>
 <li>Fixed: error matching a font when that font is in a .ttc that contains multiple font families. <a href="https://github.com/wez/wezterm/issues/1137">#1137</a></li>
 <li>Improved: <code>.deb</code> packages now <code>Provides: x-terminal-emulator</code>. <a href="https://github.com/wez/wezterm/issues/1139">#1139</a></li>
 <li>Fixed: Wayland: panic with most recent wlroots. Thanks to <a href="https://github.com/unrelentingtech">@unrelentingtech</a>! <a href="https://github.com/wez/wezterm/issues/1144">#1144</a></li>
@@ -3082,16 +3082,6 @@ that you log in to via ssh or the mux connection protocol.</p>
 <p>If you're seeing multiple garbage characters in your terminal in place of
 what should be a single glyph then you most likely have a problem with your
 locale environment variables.</p>
-<h3 id="pasting-or-entering-unicode-in-zsh-looks-broken"><a class="header" href="#pasting-or-entering-unicode-in-zsh-looks-broken">Pasting or entering unicode in zsh looks broken</a></h3>
-<p>By default, zsh's line editor doesn't support combining character sequences.
-Make sure that you have LANG and local configured correctly as shown above,
-and then tell zsh to enable combining characters:</p>
-<pre><code>setopt COMBINING_CHARS
-</code></pre>
-<p>You'll want to put that into your zshrc so that it is always enabled.</p>
-<p>See <a href="https://unix.stackexchange.com/questions/598440/zsh-indic-fonts-support-rendering-issue-which-is-working-fine-on-bash">this stackexchange
-question</a>
-for more information.</p>
 <h3 id="fonts-and-fallback"><a class="header" href="#fonts-and-fallback">Fonts and fallback</a></h3>
 <p>If you have configured the use of a font that contains only latin characters
 and then try to display a glyph that isn't present in that font (perhaps an
