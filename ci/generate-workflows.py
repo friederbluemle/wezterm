@@ -40,12 +40,18 @@ class RunStep(Step):
         if self.shell:
             f.write(f"{indent}  shell: {self.shell}\n")
 
-        run = self.run
+        run = []
 
-        if env:
+        if env and self.shell == "bash":
             for k, v in env.items():
-                if self.shell == "bash":
-                    run = f"export {k}={v}\n{run}\n"
+                run.append(f"export {k}={v}")
+
+        if isinstance(self.run, list):
+            run += self.run
+        else:
+            run.append(self.run)
+
+        run = "\n".join(run)
 
         f.write(f"{indent}  run: {yv(run, depth + 2)}\n")
 
@@ -278,9 +284,9 @@ ln -s /usr/local/git/bin/git /usr/local/bin/git""",
                 RunStep(
                     name="Build (Release mode)",
                     shell="cmd",
-                    run="""
-PATH C:\\Strawberry\\perl\\bin;%PATH%
-cargo build --all --release""",
+                    run=[
+                        "PATH C:\\Strawberry\\perl\\bin;%PATH%",
+                        "cargo build --all --release"],
                 )
             ]
         if "macos" in self.name:
@@ -601,10 +607,11 @@ def generate_actions(namer, jobber, trigger, is_continuous):
 jobs:
   build:
     runs-on: {yv(job.runs_on)}
-    {container}
-    steps:
 """
             )
+            if container:
+                f.write(f"    {container}\n")
+            f.write("    steps:\n")
 
             job.render(f, 3)
 
